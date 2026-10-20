@@ -1,0 +1,41 @@
+---
+layout: base.njk
+title: FrostAgent | 让智能体融入对话
+paged: true
+---
+{% from "icons.njk" import icon %}
+{% from "page-turn.njk" import pageTurn %}
+<section class="hero container" id="home" aria-labelledby="hero-heading">
+  <div class="hero-intro">
+    <div class="hero-details">
+      <h1 id="hero-heading"><span class="wordmark">FrostAgent</span><span class="version">V1.0.0<span class="preview-label">PUBLIC PREVIEW</span></span></h1>
+      <p class="hero-summary">一个强大的 AI 角色扮演、编程辅助和子代理调度平台。</p>
+      <p class="hero-description">基于 Golang 构建，支持多种协议适配器（例如 OneBot），并可与各种即时通讯应用集成。</p>
+      <div class="hero-actions"><a class="button button-primary" href="#start">开始部署 {{ icon('arrow') }}</a><a class="button button-secondary" href="https://github.com/GuaiZai233/FrostAgent" target="_blank" rel="noopener noreferrer">{{ icon('github') }} GitHub {{ icon('external', 'small-icon') }}</a></div>
+    </div>
+    {% include "deploy-terminal.njk" %}
+  </div>
+  {{ pageTurn('features', '下一屏：核心能力') }}
+</section>
+
+<section class="features-section container section-space" id="features" aria-labelledby="features-heading">
+  <div class="section-heading"><h2 id="features-heading">不止于一次问答。</h2><p>从理解对话，到记住上下文，再到调用工具。<br>为你的 Bot 组合合适的能力。</p></div>
+  <div class="feature-list">
+    <article class="feature-row"><div><div class="feature-title">{{ icon('message') }}<h3>自定义人设与多实例</h3></div><p>通过名称、唤醒别名、系统提示词和示例对话定义人格，让不同实例拥有各自的角色设定与会话体验。</p></div></article>
+    <article class="feature-row"><div><div class="feature-title">{{ icon('memory') }}<h3>会话持久化与反思机制</h3></div><p>结合会话摘要、记忆提取与检索，为后续对话提供上下文。可选 Embedding 语义检索，按实例和群配置模型。</p></div></article>
+    <article class="feature-row"><div><div class="feature-title">{{ icon('tools') }}<h3>Tool call 和 Skills</h3></div><p>通过 MCP 扩展工具，导入 SKILL.md 技能包，按需加载与调用。随包脚本通过启用的隔离沙箱执行。</p></div></article>
+    <article class="feature-row"><div><div class="feature-title">{{ icon('layers') }}<h3>工程化部署</h3></div><p>在 Web 控制台管理实例、模型供应商与任务路由。共享模型目录，各自配置人格与记忆，按需选择 SQLite 或 PostgreSQL。</p></div></article>
+  </div>
+  {{ pageTurn('start', '下一屏：快速开始') }}
+</section>
+
+<section class="start-section container section-space" id="start" aria-labelledby="start-heading">
+  <div class="section-heading"><h2 id="start-heading">从这里，开始对话。</h2><p>在自己的环境部署，为第一个 Bot 配置人格、模型和连接。</p></div>
+  <ol class="start-steps"><li><div><h3>获取项目并启动</h3><p>选择源码构建或 Docker 部署，按文档准备运行环境。</p></div></li><li><div><h3>创建你的实例</h3><p>打开 Web 控制台，创建实例，配置模型供应商与实例模型路由。</p></div></li><li><div><h3>连接，开始聊天</h3><p>配置人格与适配器，在概览中启用实例，再连接上游聊天平台。</p></div></li></ol>
+  {{ pageTurn('contribute', '下一屏：参与项目') }}
+</section>
+
+<section class="contribute-section" id="contribute" aria-labelledby="contribute-heading">
+  <div class="container contribute-inner"><div><h2 id="contribute-heading">开源社区</h2><p>欢迎来自世界各地的开发者为项目贡献代码！</p></div><a class="button button-primary" href="https://github.com/GuaiZai233/FrostAgent" target="_blank" rel="noopener noreferrer">{{ icon('github') }} 在 GitHub 参与 {{ icon('external') }}</a></div>
+  {% include "contributors.njk" %}
+</section>

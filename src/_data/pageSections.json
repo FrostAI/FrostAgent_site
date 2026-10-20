@@ -1,0 +1,6 @@
+[
+  { "id": "home", "label": "首页" },
+  { "id": "features", "label": "核心能力" },
+  { "id": "start", "label": "快速开始" },
+  { "id": "contribute", "label": "参与项目" }
+]

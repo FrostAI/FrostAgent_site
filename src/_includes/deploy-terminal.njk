@@ -1,0 +1,25 @@
+{% from "icons.njk" import icon %}
+  <div class="deploy-block"><div class="deploy-tabs" role="tablist" aria-label="选择部署方式"><button id="source-tab" type="button" role="tab" aria-selected="true" aria-controls="source-panel" data-panel="source-panel">源码构建</button><button id="docker-tab" type="button" role="tab" aria-selected="false" aria-controls="docker-panel" data-panel="docker-panel" tabindex="-1">Docker 部署</button></div>
+    <div id="source-panel" role="tabpanel" aria-labelledby="source-tab" tabindex="0"><div class="terminal"><div class="terminal-bar"><span><i></i><i></i><i></i></span><span>terminal</span><button class="copy-button" type="button" data-copy="source-code" aria-label="复制源码构建命令">{{ icon('copy') }}<span>复制</span></button></div><pre><code id="source-code"><span class="code-comment"># 获取源码</span>
+git clone https://github.com/GuaiZai233/FrostAgent.git
+cd FrostAgent
+
+<span class="code-comment"># 安装依赖并构建</span>
+pnpm install
+go install github.com/bufbuild/buf/cmd/buf@latest
+make build
+
+<span class="code-comment"># 启动服务</span>
+go run ./cmd/app</code></pre></div><p class="deploy-note">需要 Go 1.27+、Node.js、pnpm 和 Make。首次启动默认使用 SQLite；可在控制台切换到 PostgreSQL。</p><a class="text-link" href="https://github.com/GuaiZai233/FrostAgent/blob/main/README_zh_CN.md#快速开始" target="_blank" rel="noopener noreferrer">查看完整构建说明 {{ icon('external') }}</a></div>
+    <div id="docker-panel" role="tabpanel" aria-labelledby="docker-tab" tabindex="0" hidden><div class="terminal"><div class="terminal-bar"><span><i></i><i></i><i></i></span><span>terminal</span><button class="copy-button" type="button" data-copy="docker-code" aria-label="复制 Docker 部署命令">{{ icon('copy') }}<span>复制</span></button></div><pre><code id="docker-code"><span class="code-comment"># 获取源码并准备代理配置</span>
+git clone https://github.com/GuaiZai233/FrostAgent.git
+cd FrostAgent
+cp docker.env.example .env
+
+<span class="code-comment"># 交互式生成代理密码哈希</span>
+docker run --rm -it caddy:2-alpine caddy hash-password
+
+<span class="code-comment"># 填写 .env 中的代理账号与密码哈希后启动</span>
+docker compose up -d --build</code></pre></div><p class="deploy-note">需要 Docker Compose。先设置代理用户名与密码哈希，再启动服务；证书信任与远程访问配置请按完整部署文档操作。</p></div>
+    <p class="copy-status" role="status" aria-live="polite"></p>
+  </div>

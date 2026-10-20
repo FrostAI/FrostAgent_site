@@ -1,0 +1,7 @@
+<nav class="page-index" aria-label="页面索引">
+  <ol>
+    {% for page in pageSections %}
+    <li><a href="#{{ page.id }}" aria-label="第 {{ loop.index }} 屏：{{ page.label }}" title="{{ page.label }}"{% if loop.first %} aria-current="location"{% endif %}></a></li>
+    {% endfor %}
+  </ol>
+</nav>

@@ -1,0 +1,46 @@
+{% from "icons.njk" import icon %}
+{% from "page-turn.njk" import pageTurn %}
+<!DOCTYPE html>
+<html lang="zh-CN"{% if paged %} class="paged"{% endif %}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="{{ description | default('FrostAgent 是一个强大的 AI 角色扮演、编程辅助和子代理调度平台。基于 Golang 构建，支持多种协议适配器，可与即时通讯应用集成。') }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="一个强大的 AI 角色扮演、编程辅助和子代理调度平台。">
+  <meta property="og:type" content="website">
+  <title>{{ title }}</title>
+  <link rel="icon" type="image/png" href="/assets/frostagent-mascot.png">
+  <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/site.js" defer></script>
+  {% if paged %}<script src="/assets/section-scroll.js" defer></script>{% endif %}
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到正文</a>
+  <header class="site-header">
+    <nav class="nav container" aria-label="主导航">
+      <a class="brand" href="/" aria-label="FrostAgent 首页">
+        <img src="/assets/frostagent-mascot.png" alt="" width="34" height="35">
+        <span>FrostAgent</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false" aria-controls="nav-links" hidden>{{ icon('menu') }}</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/#features">功能</a></li>
+        <li><a href="/#start">快速开始</a></li>
+        <li><a class="nav-github" href="https://github.com/GuaiZai233/FrostAgent" target="_blank" rel="noopener noreferrer" aria-label="在新标签页打开 GitHub 仓库">{{ icon('github') }}<span>GitHub</span>{{ icon('external', 'small-icon') }}</a></li>
+      </ul>
+    </nav>
+  </header>
+  {% if paged %}{% include "page-index.njk" %}{% endif %}
+  <main id="main">{{ content | safe }}</main>
+  <footer class="site-footer">
+    <div class="container footer-main">
+      <div><a href="/" class="footer-brand">FrostAgent<span class="accent">.</span></a></div>
+      <div class="footer-links"><a href="https://github.com/GuaiZai233/FrostAgent/blob/main/README_zh_CN.md" target="_blank" rel="noopener noreferrer">项目文档 {{ icon('external') }}</a><a href="https://github.com/GuaiZai233/FrostAgent/issues" target="_blank" rel="noopener noreferrer">反馈与贡献 {{ icon('external') }}</a><a href="https://guaitech.org" target="_blank" rel="noopener noreferrer">GuaiTech {{ icon('external') }}</a></div>
+    </div>
+    <div class="container footer-bottom"><span>© 2026 GuaiTech · Tech Inspires.</span><a href="https://github.com/GuaiZai233/FrostAgent/blob/main/LICENCE" target="_blank" rel="noopener noreferrer">Licenced under MPL-2.0 {{ icon('external') }}</a></div>
+    {% if paged %}{{ pageTurn('home', '回到首页', true) }}{% endif %}
+  </footer>
+</body>
+</html>

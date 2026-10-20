@@ -1,0 +1,4 @@
+{% from "icons.njk" import icon %}
+{% macro pageTurn(target, label, up = false) %}
+<a class="page-turn{% if up %} is-up{% endif %}" href="#{{ target }}" aria-label="{{ label }}" title="{{ label }}">{{ icon('chevron') }}</a>
+{% endmacro %}

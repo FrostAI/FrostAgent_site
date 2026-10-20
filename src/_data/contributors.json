@@ -1,0 +1,36 @@
+{
+  "repository": "GuaiZai233/FrostAgent",
+  "updatedAt": "2026-10-20T11:19:05.731Z",
+  "people": [
+    {
+      "login": "frostfallx",
+      "url": "https://github.com/frostfallx",
+      "avatar": "/assets/contributors/217463264.jpg",
+      "contributions": 93
+    },
+    {
+      "login": "GuaiZai233",
+      "url": "https://github.com/GuaiZai233",
+      "avatar": "/assets/contributors/157940586.png",
+      "contributions": 44
+    },
+    {
+      "login": "LamentBot",
+      "url": "https://github.com/LamentBot",
+      "avatar": "/assets/contributors/324972996.jpg",
+      "contributions": 3
+    },
+    {
+      "login": "dependabot[bot]",
+      "url": "https://github.com/apps/dependabot",
+      "avatar": "/assets/contributors/49699333.png",
+      "contributions": 1
+    },
+    {
+      "login": "jexjws",
+      "url": "https://github.com/jexjws",
+      "avatar": "/assets/contributors/65129712.jpg",
+      "contributions": 1
+    }
+  ]
+}

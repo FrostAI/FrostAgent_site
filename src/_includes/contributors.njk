@@ -1,0 +1,18 @@
+{% macro contributorGroup(duplicate=false) %}
+<ul class="contributor-group{% if duplicate %} is-duplicate{% endif %}"{% if duplicate %} aria-hidden="true"{% endif %}>
+  {% for repetition in range(0, 4) %}
+    {% for person in contributors.people %}
+    <li{% if repetition > 0 %} class="is-duplicate" aria-hidden="true"{% endif %}>
+      <a class="contributor-avatar" href="{{ person.url }}" title="{{ person.login }} · {{ person.contributions }} 次贡献" target="_blank" rel="noopener noreferrer"{% if duplicate or repetition > 0 %} tabindex="-1"{% endif %}>
+        <img src="{{ person.avatar }}" alt="{{ person.login }}" width="64" height="64" loading="lazy" decoding="async">
+      </a>
+    </li>
+    {% endfor %}
+  {% endfor %}
+</ul>
+{% endmacro %}
+<div class="contributors container" aria-label="FrostAgent 的 GitHub 贡献者">
+  <div class="contributors-marquee" id="contributors-marquee">
+    <div class="contributors-track">{{ contributorGroup() }}{{ contributorGroup(true) }}</div>
+  </div>
+</div>

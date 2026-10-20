@@ -1,0 +1,16 @@
+{
+  "name": "frostagent-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FrostAgent 静态介绍网站",
+  "scripts": {
+    "dev": "eleventy --serve --port=4321",
+    "build": "eleventy",
+    "check": "node scripts/check-site.cjs",
+    "test:scroll": "node --test scripts/section-scroll.test.cjs",
+    "update:contributors": "node scripts/update-contributors.cjs"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2"
+  }
+}
