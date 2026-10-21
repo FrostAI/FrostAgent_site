@@ -7,9 +7,9 @@ pnpm install
 go install github.com/bufbuild/buf/cmd/buf@latest
 make build
 
-go run ./cmd/app</code></pre></div><p class="deploy-note">需要 Go 1.27+、Node.js、pnpm 和 Make。首次启动默认使用 SQLite；可在控制台切换到 PostgreSQL。</p><a class="text-link" href="https://github.com/GuaiZai233/FrostAgent/blob/main/README_zh_CN.md#快速开始" target="_blank" rel="noopener noreferrer">查看完整构建说明 {{ icon('external') }}</a></div>
+go run ./cmd/app</code></pre></div><p class="deploy-note">需要 Go 1.27+、Node.js、pnpm 和 Make。首次启动默认使用 SQLite；可在控制台切换到 PostgreSQL。</p><a class="text-link" href="/docs/guide/installation.html">查看完整构建说明 {{ icon('arrow') }}</a></div>
     <div id="docker-panel" role="tabpanel" aria-labelledby="docker-tab" tabindex="0" hidden><div class="terminal"><div class="terminal-bar"><span><i></i><i></i><i></i></span><span>terminal</span><button class="copy-button" type="button" data-copy="docker-code" aria-label="复制 Docker 部署命令">{{ icon('copy') }}<span>复制</span></button></div><pre><code id="docker-code">git clone https://github.com/GuaiZai233/FrostAgent.git
 cd FrostAgent
-docker compose up -d --build</code></pre></div><p class="deploy-note">需要 Docker Compose。默认桥接部署不发布管理端口；公网访问需配置 Cloudflare Access 和 Tunnel。</p></div>
+docker compose up -d --build</code></pre></div><p class="deploy-note">需要 Docker Compose。默认桥接部署不发布管理端口；公网访问需配置 Cloudflare Access 和 Tunnel。</p><a class="text-link" href="/docs/guide/docker.html">查看完整部署说明 {{ icon('arrow') }}</a></div>
     <p class="copy-status" role="status" aria-live="polite"></p>
   </div>

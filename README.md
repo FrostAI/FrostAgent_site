@@ -1,6 +1,6 @@
 # FrostAgent 静态网站
 
-参考 [GuaiTech](https://guaitech.org) 的技术栈与布局，使用 Eleventy 3、Nunjucks 和原生 CSS / JavaScript 构建。
+参考 [GuaiTech](https://guaitech.org) 的技术栈与布局，官网首页使用 Eleventy 3、Nunjucks 和原生 CSS / JavaScript 构建，`docs/` 使用 VitePress 提供完整中文使用文档。
 
 ## 本地开发
 
@@ -9,7 +9,7 @@ npm ci
 npm run dev
 ```
 
-预览地址：`http://localhost:4321/`。源码修改后自动重新构建。
+预览地址：`http://localhost:4321/`，文档入口为 `/docs/`。官网源码修改后自动重新构建；文档在启动前构建一次，修改文档请运行 `npm run docs:dev`，使用 `http://localhost:5173/docs/` 热更新。
 
 页面使用 `rem` 统一尺寸，`src/assets/site.css` 中的 `--site-scale` 控制整体比例，当前为 `1.2`（120%）。
 
@@ -21,7 +21,18 @@ npm run check
 npm run test:scroll
 ```
 
-生成文件位于 `_site/`，可直接交给支持静态文件的 Web 服务器托管。网站源码仓库为 [FrostAI/FrostAgent_site](https://github.com/FrostAI/FrostAgent_site)。
+构建同时生成官网首页和文档。完整输出位于 `_site/`，其中 `_site/docs/` 对应 `/docs/`；整体交给支持目录索引的静态文件服务器托管。`npm run check` 包含文档类型检查、静态资源和站内链接/章节锚点检查。网站源码仓库为 [FrostAI/FrostAgent_site](https://github.com/FrostAI/FrostAgent_site)。
+
+## 文档开发
+
+```sh
+npm run docs:dev
+npm run docs:check
+npm run docs:build
+npm run docs:preview
+```
+
+文档预览默认 `http://localhost:4173/docs/`。依赖统一由根目录 `package-lock.json` 锁定，使用 `npm ci` 安装两个站点的依赖；文档的基路径与单独部署方法见 [维护文档站](docs/development/docs.md)。
 
 ## Cloudflare Pages 部署
 
@@ -42,7 +53,7 @@ npm run test:scroll
 
    仓库的 `.node-version` 已指定 Node.js `24.18.0`，Pages 会读取这个文件。构建不需要 API 密钥；贡献者和头像均来自仓库内的静态快照。
 
-4. 点击 **Save and Deploy**。构建成功后，打开控制台显示的 `https://<项目名>.pages.dev` 地址，检查首页、翻页和贡献者滚动效果。
+4. 点击 **Save and Deploy**。构建成功后，打开控制台显示的 `https://<项目名>.pages.dev` 地址，检查首页、翻页、贡献者滚动效果，以及 `/docs/` 的导航、搜索和文章链接。
 5. 若要绑定自己的域名，在 Pages 项目中进入 **Custom domains → Set up a custom domain**，先添加域名，再按向导配置 DNS。具体记录以控制台提示为准。
 
 完成首次连接后，推送到 `main` 会自动触发生产部署；可在 Pages 的 **Deployments** 中核对构建日志、提交和部署状态。
@@ -51,6 +62,8 @@ npm run test:scroll
 
 ## 目录
 
+- `docs/`：VitePress 文档源码、主题、官网标识与导航配置。
+- `.github/workflows/ci.yml`：官网与文档的构建和检查。
 - `src/index.njk`：首页内容。
 - `src/_layouts/base.njk`：共享导航、元数据和页脚。
 - `src/_includes/icons.njk`：内联 SVG 图标。
