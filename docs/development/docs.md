@@ -49,7 +49,7 @@ npm run docs:preview
 
 ## 部署静态站点
 
-默认基路径是 `/docs/`。Cloudflare Pages 继续使用仓库根目录、`npm run build` 和 `_site` 输出目录；发布后官网在 `/`，文档在 `/docs/`。部署完整 `_site/`，不要只上传文档输出覆盖官网。
+默认基路径是 `/docs/`。官网与文档共用仓库根目录的 `npm run build` 和 `_site` 输出目录。当前官网仓库连接 Cloudflare Workers Builds；也可以按仓库 README 配置 Cloudflare Pages。发布后官网在 `/`，文档在 `/docs/`。部署完整 `_site/`，不要只上传文档输出覆盖官网。
 
 若单独部署文档，可以通过 `DOCS_BASE` 改变访问路径，前后均保留 `/`，例如改为独立域名根路径：
 
@@ -73,4 +73,4 @@ Remove-Item Env:DOCS_BASE
 
 基路径属于构建配置，修改后必须重新构建。默认保留 `.html` URL；静态服务需要支持目录的 `index.html`，无需额外的无扩展名路由重写。文档不由 FrostAgent 的 `cmd/app` 托管。
 
-仓库内 GitHub Actions 执行安装、构建、输出检查和官网滚动测试。Cloudflare Pages 的实际发布状态需在其部署记录中确认。
+仓库内 GitHub Actions 执行安装、构建、输出检查和官网滚动测试。Cloudflare 的实际发布状态需在其部署记录中确认；GitHub CI 通过不代表 Cloudflare 发布成功。

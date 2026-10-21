@@ -36,7 +36,9 @@ npm run docs:preview
 
 ## Cloudflare Pages 部署
 
-本项目使用 Cloudflare Pages 的 Git 集成进行部署：
+当前仓库已连接 Cloudflare Workers Builds。官网与文档共用 `npm run build`，完整静态输出为 `_site/`；发布状态以 Cloudflare 的构建记录为准。
+
+若使用 Cloudflare Pages，可按以下方式配置 Git 集成：
 
 1. 登录 [Cloudflare 控制台](https://dash.cloudflare.com/)，进入 **Workers & Pages → Create application → Pages → Import an existing Git repository**。
 2. 连接 GitHub，授权 Cloudflare Pages 访问 `FrostAI/FrostAgent_site`，选择这个仓库并开始设置。若列表没有该仓库，在 GitHub 集成权限中为 `FrostAI` 组织开放这个仓库的访问权限。
