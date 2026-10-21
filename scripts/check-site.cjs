@@ -32,7 +32,7 @@ for (const page of pages) {
 }
 
 const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
-assert.ok(home.includes("caddy hash-password"), "Docker instructions must include password setup");
-assert.ok(home.includes("docker.env.example"), "Docker instructions must include configuration setup");
+assert.ok(home.includes("docker compose up -d --build"), "Docker instructions must include the default Compose startup command");
+assert.doesNotMatch(home, /caddy|hash-password/i, "Docker instructions must not retain the retired Caddy setup");
 assert.ok(home.includes('id="docker-panel"'), "Docker tab panel is missing");
 console.log("Static output checks passed.");

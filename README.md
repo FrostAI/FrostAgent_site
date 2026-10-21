@@ -64,4 +64,4 @@ npm run test:scroll
 - `src/_data/contributors.json` 和 `src/assets/contributors/`：GitHub 贡献者与本地头像快照；运行 `npm run update:contributors` 更新。页面通过 CSS 循环滚动，悬停或键盘访问会暂停；减少动态效果时显示静态头像。
 - `src/404.njk`：404 页面。
 
-FrostAgent 功能和部署说明核对自项目当前 `main` 分支 README。页面展示部署命令，不会执行命令或连接真实 Bot；完整前置条件、证书和远程管理配置链接到项目文档。
+FrostAgent 功能和部署说明核对自项目当前 `main` 分支 README。Docker 示例已按合并的 [PR #211](https://github.com/GuaiZai233/FrostAgent/pull/211) 更新，使用默认桥接部署，不发布管理端口；公网访问需配置 Cloudflare Access 和 Tunnel。页面展示部署命令，不会执行命令或连接真实 Bot；完整前置条件和远程访问配置以项目文档为准。

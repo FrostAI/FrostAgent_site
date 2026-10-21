@@ -102,7 +102,6 @@ h2 { font-size: clamp(1.6875rem, calc(3vw * var(--site-scale)), 2.125rem); font-
 .copy-button:hover { color: white; }
 .terminal pre { margin: 0; padding: 1.4375rem 1.3125rem 1.5625rem; overflow-x: auto; font-family: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 0.6875rem; line-height: 2.05; tab-size: 2; }
 .terminal code { font: inherit; }
-.code-comment { color: #969696; }
 .terminal-footer { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; padding: 0.75rem 1.1875rem; border-top: 0.0625rem solid #353535; color: #aaa; font-size: 0.625rem; }
 .terminal-footer .status-dot { width: 0.3125rem; height: 0.3125rem; background: #85aa8a; }
 .terminal-address { font-family: Consolas, monospace; margin-left: auto; color: #cfcfcf; }
