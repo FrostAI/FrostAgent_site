@@ -8,7 +8,7 @@
 | Node.js     | 使用 22 或更高版本；构建控制台                             |
 | pnpm        | 根 `package.json` 固定为 10.33.0；使用仓库的 `pnpm-lock.yaml`      |
 | Buf         | 编译 Protobuf；`go install github.com/bufbuild/buf/cmd/buf@latest` |
-| Make + Bash | 使用根 `Makefile` 时需要；Make 指定 `SHELL := /bin/bash`           |
+| Make + Bash | 使用根 `Makefile` 时需要；其中指定 `SHELL := /bin/bash`，需确保 Make 能找到 Bash |
 
 将 Go 的工具安装目录加入 `PATH`，确认 `go version`、`node --version`、`pnpm --version` 与 `buf --version` 可用。
 
@@ -31,7 +31,7 @@ make build
 
 ## Windows PowerShell 构建
 
-如果没有 Bash / Make，可以直接运行各项工具。以下流程与现有 Windows CI 的构建方式一致，并额外显式生成 TypeScript 协议：
+也可以在 PowerShell 中直接运行各项工具，无需 Make 或 Bash。以下流程与现有 Windows CI 的构建方式一致，并额外显式生成 TypeScript 协议：
 
 ```powershell
 pnpm install --frozen-lockfile
