@@ -3,26 +3,26 @@ layout: home
 title: 使用文档
 hero:
   name: FrostAgent 文档
-  text: 先让 Bot 聊起来
-  tagline: 安装、配置模型、接入平台。第一次使用，从快速开始读起。
+  text: 从基础使用到进阶配置
+  tagline: 基础教程带你完成安装、模型配置与平台接入；进阶指南深入路由、记忆、工具和部署。
   actions:
     - theme: brand
-      text: 快速开始
-      link: /guide/quick-start
+      text: 基础教程
+      link: /basic/
     - theme: alt
-      text: 遇到问题
-      link: /operations/troubleshooting
+      text: 进阶指南
+      link: /advanced/
 features:
-  - title: 了解 FrostAgent
-    details: 它能做什么，使用前需要准备什么。
-    link: /guide/introduction
-    linkText: 项目介绍
-  - title: 调整你的 Bot
-    details: 更换模型、设定人格，管理群聊和记忆。
+  - title: 基础 · 安装与接入
+    details: 准备运行环境，创建实例、配置模型，通过 OneBot 或 AstrBot 收到第一条回复。
+    link: /guide/quick-start
+    linkText: 跟着快速开始操作
+  - title: 基础 · 日常使用
+    details: 设定人格、调整群聊策略、维护记忆和表情包，了解设置如何保存与生效。
     link: /usage/dashboard
-    linkText: 日常使用
-  - title: 添加工具能力
-    details: 需要时再接入 Skills、MCP 或隔离沙箱。
-    link: /integrations/skills
-    linkText: 按需扩展
+    linkText: 认识控制台
+  - title: 进阶 · 定制与维护
+    details: 按任务分配模型、启用语义检索、连接外部工具，以及备份、部署和排障。
+    link: /advanced/
+    linkText: 按需求深入
 ---
