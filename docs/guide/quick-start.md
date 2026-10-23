@@ -1,77 +1,48 @@
+---
+prev: false
+next:
+  text: 日常使用
+  link: /usage/dashboard
+---
+
 # 快速开始
 
-命令均在仓库根目录运行。本页使用原生源码构建；容器运行方式见 [Docker 部署](./docker)。
+先让一个 Bot 回复消息，再按需调整人格、记忆和工具。不需要一次配完所有功能。
 
-本地运行建议在受信任的本地环境中执行。建议使用 Cloudflare Access 前置保护端点。
+## 1. 安装并打开控制台
 
-## 1. 获取与构建
+准备一个可用的 **OpenAI 兼容模型服务**（API 地址、密钥和模型名），再按环境选择一种安装方式：
 
-准备 Go ≥ 1.27.3、Node.js 22 或更高版本、pnpm 10.33.0 与 Buf。以下流程使用 Make 构建，还需安装 Make 与 Bash。
+- **本机源码运行**：按[源码安装](./installation)构建并启动，打开 `http://127.0.0.1:8080`。支持 Windows、Linux 和 macOS。
+- **Docker 运行**：按[Docker 部署](./docker)选择网络方案。默认 Compose 不开放管理端口，不能直接从宿主机浏览器打开。
 
-```bash
-git clone https://github.com/GuaiZai233/FrostAgent.git
-cd FrostAgent
-pnpm install --frozen-lockfile
-go install github.com/bufbuild/buf/cmd/buf@latest
-make build
-```
+本地运行应使用受信任的环境。公网访问先完成[管理面认证](../operations/security#管理面认证)；容器部署按 Docker 指南配置 Cloudflare Access。
 
-构建产物为 `bin/app` 和 `bin/agent`，Windows 平台也可显式构建为 `.exe`。`app` 是运行服务，`agent` 是旧版 JSON 记忆文件工具，参见[升级说明](../operations/upgrading)。
+## 2. 创建并启用 Bot
 
-## 2. 启动服务
+1. 在侧边栏底部打开「实例管理」，创建并选择一个实例。
+2. 打开「模型路由器」，添加供应商，填写 API 基地址和密钥。
+3. 添加模型，填写上游模型名；在「实例默认路由」为「主对话」选择它，然后发布。
+4. 打开「人格设定」，填写系统提示词；示例对话可以稍后补充。
+5. 回到「概览」，打开「是否启用」。新实例默认停用。
 
-::: code-group
+API 基地址通常类似 `https://api.example.com/v1`，不要填写完整的 `chat/completions` 地址。设置在控制台保存到数据库，无需修改根目录 `.env`。
 
-```bash [Linux / macOS]
-./bin/app
-```
+::: details 已有备份，或暂时不接聊天平台？
 
-```powershell [Windows（显式构建 .exe 后）]
-.\bin\app.exe
-```
+有全量 ZIP 备份时，在「实例管理 → 创建」直接上传恢复，无需先建空实例。恢复后需要重新配置模型凭据；刷新控制台后需重新选择实例。
 
-```bash [通过 Go 启动]
-go run ./cmd/app
-```
+暂时没有聊天平台，可以先用[直接对话](../usage/direct-chat)选择私聊场景，连接后发送问候。这是临时模拟会话，断开后清理，不代表真实平台投递和记忆写入已验证；不参与 Alcyone 计费，但模型 API 仍可能收费。
 
 :::
 
-从仓库根目录启动，让 `data/` 和默认示例对话模板路径保持一致。`go run` 需要已经构建控制台并生成 Go 协议代码。
+## 3. 接入聊天平台
 
-首次运行默认使用 `data/frostagent.db`，管理页面为 `http://127.0.0.1:8080`，外部适配器监听为 `127.0.0.1:1234`。
+从「概览」复制适配器地址，按对应指南连接上游。跨主机或容器连接时，替换为上游可达的主机，保留实例 ID 和路径。
 
-::: tip 当前配置方式
-当前版本通过控制台把配置保存到 SQL 数据库。无需复制 `.env.example`，修改根目录 `.env` 或设置进程中的 `SYSTEM_PROMPT` 不会配置当前实例。
-:::
+- [OneBot v11](../adapters/onebot)：在上游配置反向 WebSocket。
+- [AstrBot](../adapters/astrbot)：安装适配器插件，并关闭 AstrBot 自带的 LLM 回复。
 
-## 3. 创建实例
-已有全量 ZIP 可在「实例管理 → 创建」直接上传恢复，无需先建空实例。
+连接后先发一条私聊；群聊用真实 **@机器人** 测试。收到回复后就完成基础配置了。
 
-1. 打开管理页面，在侧边栏底部打开「实例管理」。
-2. 创建并选择实例。
-3. 打开「模型路由器」，添加模型供应商和模型。
-4. 在「实例默认路由」选择模型并发布。
-5. 打开「人格设定」，编辑系统提示词和示例对话。
-6. 在「概览」启用后，复制 websocket 地址并填入上游适配器以接入消息平台。
-
-新实例默认停用。页面刷新后需要重新选择实例。供应商地址填写 API 基地址，例如服务的 `https://api.example.com/v1`，不要填写完整的 `chat/completions` 地址；具体以供应商的 API 路径为准。
-
-## 4. 验证一次对话
-
-进入「直接对话」，选择协议和私聊场景，连接后发送一条问候。确认能收到回复，并在「日志查询」检查模型请求与投递记录。
-
-「直接对话」使用临时模拟会话，断开连接后会清理。它可用于检查模型、人格和工具链，真实平台权限、消息投递与记忆写入仍需在正式接入后验证。模拟模式不参与 Alcyone 计费，但模型供应商仍可能对 API 调用收费。
-
-## 5. 接入真实平台
-
-从概览复制对应地址，把其中主机改为上游能访问到的主机，保留实例 ID 和路径：
-
-```text
-ws://127.0.0.1:1234/instances/<实例ID>/ws/onebot
-ws://127.0.0.1:1234/instances/<实例ID>/ws/astrbot
-```
-
-- OneBot 上游：参见 [OneBot v11 接入](../adapters/onebot)。
-- AstrBot：安装专用插件并关闭 AstrBot 自带的 LLM 回复，参见 [AstrBot 接入](../adapters/astrbot)。
-
-首次群聊验证使用真实 @机器人；名称唤醒、主动回复与群记忆分别按[群聊策略](../usage/group-chat)配置。
+没有回复？按[故障排查](../operations/troubleshooting#已连接但-bot-不回复)逐项检查。接下来只需按需求阅读[人格设定](../usage/persona)、[群聊策略](../usage/group-chat)或[记忆管理](../usage/memory)。
