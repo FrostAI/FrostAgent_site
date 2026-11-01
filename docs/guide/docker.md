@@ -1,6 +1,6 @@
 # Docker 部署
 
-容器部署的远程管理认证由前置 **Cloudflare Access** 负责。镜像不包含额外的反向代理、管理员账号系统或本地 CA。Tunnel 的运行位置由部署用户选择；Tunnel 连通本身不代表已经配置 Access。
+建议远程管理认证由前置 **Cloudflare Access** 负责。镜像不包含额外的反向代理、管理员账号系统或本地 CA。
 
 以下命令在已克隆的仓库根目录执行，需要可用的 Docker Engine 与 Compose 插件。示例通过仓库 `Dockerfile` 本地构建镜像，应用设置仍由 SQL 管理。
 
@@ -44,7 +44,11 @@ docker compose -f compose.yaml -f compose.cloudflare.yaml up -d --build
 
 在 Cloudflare 配置回源地址 `http://127.0.0.1:8080`，并在发布路由前为**整个管理域名的全部路径**配置 Access 应用与允许策略，不留管理 API/RPC 的 Bypass 路径。生产路径为：`浏览器 → Cloudflare Access → Tunnel → cloudflared → 同命名空间回环管理监听`。普通桥接网络容器无法连接该回环监听，伪造 Host 或 Cloudflare 请求头不能改变网络可达性。
 
-首次配置公开 Host/Origin 可先使用上述 Linux 本地控制台，或者执行以下一次性管理请求（Bash 示例；替换域名，现有自定义管理端口需同步修改 `base`）。辅助 Python 容器仅用于本次配置，不是运行组件：
+发布路由前，还需把完整公开地址加入 `HTTP_ALLOWED_ORIGINS`。可通过上述 Linux 本地控制台设置；没有本地控制台时，展开下面的命令完成首次配置。
+
+::: details 首次配置公开域名（无本地控制台时）
+
+以下是一次性管理请求（Bash 示例；替换域名，现有自定义管理端口需同步修改 `base`）。辅助 Python 容器仅用于本次配置，不是运行组件：
 
 若已启用 `MCP_ENFORCE_LOCAL_TOKEN`，先在当前 Bash 会话输入现有的管理控制令牌（不回显）；默认免令牌部署跳过这一步：
 
@@ -76,16 +80,30 @@ PY
 
 若设置了临时令牌变量，完成后执行 `unset FROSTAGENT_BOOTSTRAP_TOKEN`。
 
+:::
+
 只设置宿主机 `127.0.0.1` 发布地址不能隔离容器网络；反过来，将端口发布到宿主机也不能让容器内回环监听变得可达。不要把管理监听改成 `0.0.0.0` 来修复 Tunnel 连接。宿主机 cloudflared 使用 host 方案；独立网络的容器 cloudflared 使用共享命名空间方案。
 
 ## 配置、升级和验证边界
+
+应用配置保存在 SQL 中，`.env` 的 `TUNNEL_TOKEN` 只供可选 connector 使用。升级前备份应用卷与外部 PostgreSQL；`docker compose down` 保留卷，**不要加 `-v`，除非明确要删除数据**。
+
+::: details 已有部署：监听地址、认证和旧版迁移
 
 SQL 设置仍优先；启动、热更新和数据库切换必须保持管理地址为数值回环 IP，且与适配器不同端口。不安全的存量地址拒绝启动，不自动迁移。早期容器部署已保存的 `127.0.0.1:8081` 仍有效，需让 Tunnel 回源到该实际端口；新库默认管理端口改回 8080。host 镜像的回环默认值不会覆盖 SQL 中已保存的 `WS_LISTEN_ADDR=0.0.0.0:1234`；从桥接部署切换到 host 前，须按需要先改为 `127.0.0.1:1234`，避免适配器监听宿主机所有接口。
 
 容器构建仅信任实际来自回环的 connector 连接，保留公共 Host/Origin 和转发头；这份信任来自网络隔离，不是对 Cloudflare 请求头的认证。通过 Access 的正常请求默认无需另一套本地登录。既有 `MCP_ENFORCE_LOCAL_TOKEN` 仍有效；若用户显式启用了它，前端及一次性管理请求仍需原有 Bearer Token。普通构建的远程控制令牌规则保持不变。
 
-镜像使用 UID/GID `10001:10001`，系统 CA 信任包用于出站 TLS，不生成部署 CA。`frostagent-data` 保留 `/app/data` 中的数据库、引导选择和贴图文件。`docker compose down` 保留卷；只有明确要删除数据时才使用 `down -v`。升级前备份应用卷与外部 PostgreSQL；旧 `frostagent-gateway-data` 证书卷不再使用，不自动删除。从带 gateway 的旧版部署升级时先用旧部署文件执行 `down`（不带 `-v`），停用旧 gateway，再选择新拓扑启动，保留相同 Compose 项目名以复用数据卷。
+镜像使用 UID/GID `10001:10001`，系统 CA 信任包用于出站 TLS，不生成部署 CA。`frostagent-data` 保留 `/app/data` 中的数据库、引导选择和贴图文件。旧 `frostagent-gateway-data` 证书卷不再使用，不自动删除。从带 gateway 的旧版部署升级时先用旧部署文件执行 `down`（不带 `-v`），停用旧 gateway，再选择新拓扑启动，保留相同 Compose 项目名以复用数据卷。
 
-应用配置仍来自 SQL，`.env` 中的 `TUNNEL_TOKEN` 只供可选 connector 使用。容器内 `localhost` 指向当前网络命名空间；外部数据库、模型与沙箱使用可达地址。镜像不包含 Node.js/Python 等 stdio MCP 运行时，命令执行仍交给外部沙箱。
+:::
+
+容器内 `localhost` 指向当前网络命名空间；外部数据库、模型与沙箱使用可达地址。镜像不包含 Node.js/Python 等 stdio MCP 运行时，命令执行仍交给外部沙箱。
+
+::: details 自动测试覆盖了什么
 
 CI 构建桥接及 host 镜像，使用临时数据验证回源路径、公共 Host/Origin、管理隔离、端口暴露、OneBot/AstrBot WebSocket、SQL 监听约束、非 root、退出与持久化。测试使用本地合成回源客户端和只运行 `version` 的真实 cloudflared 镜像，不建立公网 Tunnel；Cloudflare Access 云端登录/策略、真实 IM 接入及 Desktop 宿主机转发不属于已验证范围。
+
+:::
+
+打开控制台后，继续[创建并启用 Bot](./quick-start#_2-创建并启用-bot)。连接失败时查看[管理页面和容器排障](../operations/troubleshooting#管理页面和容器)。
