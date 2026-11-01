@@ -1,18 +1,18 @@
 # 安装与构建
 
-本页用于本机源码运行。使用容器请直接看 [Docker 部署](./docker)。以下命令均在 FrostAgent 应用仓库执行，不是文档站仓库。
+本页用于本机源码运行。使用容器请直接看 [Docker 部署](./docker)。
 
 ## 工具要求
 
 | 工具        | 要求与用途                                                         |
 | ----------- | ------------------------------------------------------------------ |
-| Go          | 1.27.3 或更高版本；编译服务端与协议工具                       |
-| Node.js     | 使用 22 或更高版本；构建控制台                             |
+| Go          | 1.27.3 或更高版本，以编译服务端与协议工具                       |
+| Node.js     | 使用 22 或更高版本，以构建控制台                             |
 | pnpm        | 根 `package.json` 固定为 10.33.0；使用仓库的 `pnpm-lock.yaml`      |
-| Buf         | 编译 Protobuf；`go install github.com/bufbuild/buf/cmd/buf@latest` |
+| Buf         | 编译 Protobuf |
 | Make + Bash | 使用根 `Makefile` 时需要；其中指定 `SHELL := /bin/bash`，需确保 Make 能找到 Bash |
 
-将 Go 的工具安装目录加入 `PATH`，确认 `go version`、`node --version`、`pnpm --version` 与 `buf --version` 可用。
+检查 PATH 以确认 `go version`、`node --version`、`pnpm --version` 与 `buf --version` 可用。
 
 ## 获取源码
 
@@ -23,7 +23,7 @@ cd FrostAgent
 
 然后选择下面一种构建方式。Windows 没有 Bash 时，使用 PowerShell 步骤即可。
 
-## Make 构建
+## 1° Make 构建
 
 ```bash
 pnpm install --frozen-lockfile
@@ -45,7 +45,7 @@ make build
 
 :::
 
-## Windows PowerShell 构建
+## 2° Windows PowerShell 构建
 
 也可以在 PowerShell 中直接运行各项工具，无需 Make 或 Bash。以下流程与现有 Windows CI 的构建方式一致，并额外显式生成 TypeScript 协议：
 
@@ -78,7 +78,7 @@ Buf 的本地插件通过 `PATH` 查找；Go 安装工具后要确保终端能�
 | `internal/frontend/dist/`      | 控制台静态资源，Go 编译时嵌入             |
 | `gen/`                         | 生成的 Go 协议代码                        |
 
-服务部署至少需要主程序、稳定的工作目录和数据存储。保留 `eval/dialogue/dialogue.yml` 可让新实例按默认模板初始化示例对话。文档站位于独立的 [FrostAI/FrostAgent_site](https://github.com/FrostAI/FrostAgent_site) 仓库，不嵌入服务主程序；构建方法见[维护文档站](../development/docs)。
+服务部署至少需要主程序、稳定的工作目录和数据存储。保留 `eval/dialogue/dialogue.yml` 可让新实例按默认模板初始化示例对话。
 
 :::
 

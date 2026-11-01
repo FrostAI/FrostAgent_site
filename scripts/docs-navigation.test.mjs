@@ -31,9 +31,9 @@ function sectionFor(route) {
 const routes = pagesIn(docs).map((filename) => '/' + path.relative(docs, filename)
   .split(path.sep).join('/').replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, ''));
 
-test('top navigation exposes basic and advanced reading paths', () => {
-  assert.deepEqual(nav.map((item) => item.text), ['基础', '进阶']);
-  assert.deepEqual(nav.map((item) => item.link), ['/basic/', '/advanced/']);
+test('top navigation opens the unified documentation', () => {
+  assert.deepEqual(nav.map((item) => item.text), ['使用文档']);
+  assert.deepEqual(nav.map((item) => item.link), ['/guide/quick-start']);
 });
 
 test('each article is in its own contextual sidebar exactly once', () => {
@@ -56,32 +56,27 @@ test('every sidebar topic is reachable from the top navigation', () => {
   }
 });
 
-test('the two reading levels cover every article without mixing topics', () => {
-  const levels = [...new Set(Object.values(sidebar))];
-  assert.equal(levels.length, 2);
-  const links = levels.flatMap((items) => linksIn(items));
-  assert.equal(links.length, new Set(links).size, 'An article belongs to more than one level');
+test('one topic sidebar covers every article without duplicate entries', () => {
+  const sections = [...new Set(Object.values(sidebar))];
+  assert.equal(sections.length, 1);
+  const links = sections.flatMap((items) => linksIn(items));
+  assert.equal(links.length, new Set(links).size, 'An article appears more than once');
   assert.deepEqual([...links].sort(), routes.filter((route) => route !== '/').sort());
-  for (const level of levels) {
-    assert.deepEqual(linksIn(level, true), linksIn(level), 'Reading steps must be visible by default');
+  for (const section of sections) {
+    assert.deepEqual(linksIn(section, true), linksIn(section), 'Topics must be visible by default');
   }
 });
 
-test('every article highlights its own reading level in the top navigation', () => {
+test('every article highlights the documentation in the top navigation', () => {
   for (const route of routes.filter((route) => route !== '/')) {
     const active = nav.filter((item) => new RegExp(item.activeMatch).test(route));
     assert.equal(active.length, 1, `Ambiguous or missing navigation highlight: ${route}`);
-    assert.equal(sectionFor(route), sectionFor(active[0].link), `Wrong reading level: ${route}`);
+    assert.equal(sectionFor(route), sectionFor(active[0].link), `Wrong sidebar: ${route}`);
   }
 });
 
-test('basic model and memory operations are separated from their advanced reference', () => {
-  const basic = sectionFor('/basic/');
-  const advanced = sectionFor('/advanced/');
-  for (const route of ['/basic/models', '/basic/memory', '/guide/quick-start', '/guide/docker']) {
-    assert.equal(sectionFor(route), basic, route);
-  }
-  for (const route of ['/usage/model-router', '/usage/memory', '/usage/embedding', '/guide/deployment']) {
-    assert.equal(sectionFor(route), advanced, route);
-  }
+test('model and memory tutorials use their canonical topic pages', () => {
+  assert.ok(routes.includes('/usage/model-router'));
+  assert.ok(routes.includes('/usage/memory'));
+  assert.ok(!routes.some((route) => /^\/(basic|advanced)\//.test(route)));
 });

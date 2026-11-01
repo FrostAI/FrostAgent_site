@@ -16,7 +16,7 @@
 | `SANDBOX_AUTH_TOKEN`        | 网关认证，启用时必填                    |
 | `SANDBOX_SESSION_NAMESPACE` | 默认 `frostagent`，实例与会话进一步隔离 |
 
-当前客户端支持 FA-Sandbox 的 `/api/v1/shell/exec`，在接口返回 404 时兼容回退至 code-interpreter 的 `/api/v1/execute`。选择哪种网关后，按它自己的部署文档准备容器或其他隔离环境。
+当前客户端支持 FA-Sandbox 的 `/api/v1/shell/exec`，在接口返回 404 时兼容回退至 code-interpreter 的 `/api/v1/execute`。选择网关后，按其对应部署文档准备容器和环境。
 
 ## 会话生命周期
 

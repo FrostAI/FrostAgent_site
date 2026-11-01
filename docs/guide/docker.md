@@ -1,6 +1,6 @@
 # Docker 部署
 
-建议远程管理认证由前置 **Cloudflare Access** 负责。镜像不包含额外的反向代理、管理员账号系统或本地 CA。Tunnel 的运行位置由部署用户选择；Tunnel 连通本身不代表已经配置 Access。
+建议远程管理认证由前置 **Cloudflare Access** 负责。镜像不包含额外的反向代理、管理员账号系统或本地 CA。
 
 以下命令在已克隆的仓库根目录执行，需要可用的 Docker Engine 与 Compose 插件。示例通过仓库 `Dockerfile` 本地构建镜像，应用设置仍由 SQL 管理。
 
