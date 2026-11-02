@@ -36,7 +36,7 @@ make build
 ./bin/app
 ```
 
-命令在应用仓库根目录执行。Windows 也可使用无需 Make / Bash 的 [PowerShell 构建步骤](./installation#windows-powershell-构建)，生成后启动 `.\bin\app.exe`。构建产物和工具说明见[安装与构建](./installation)。
+命令在应用仓库根目录执行。Windows 也可使用无需 Make / Bash 的 [PowerShell 构建步骤](./installation#_2°-windows-powershell-构建)，生成后启动 `.\bin\app.exe`。构建产物和工具说明见[安装与构建](./installation)。
 
 
 
@@ -45,7 +45,7 @@ make build
 ```plain_text
 http://127.0.0.1:8080
 ```
-默认数据库为 `data/frostagent.db`，外部适配器监听 `127.0.0.1:1023`。以后也从仓库根目录启动，保持数据与示例对话模板路径一致。
+默认数据库为 `data/frostagent.db`，外部适配器监听 `127.0.0.1:11023`。以后也从仓库根目录启动，保持数据与示例对话模板路径一致。
 
 ::: warning 访问范围
 本地运行应使用受信任的环境。公网管理先完成[管理面认证](../operations/security#管理面认证)；建议配置 Cloudflare Access 等前置。不要贪图方便而直接暴露管理端口。
@@ -81,8 +81,8 @@ API Base URL 通常类似 `https://api.example.com/v1`，不要填写完整的 `
 在「概览」复制对应实例的适配器地址。默认本机地址形如：
 
 ```text
-ws://127.0.0.1:1023/instances/<实例ID>/ws/onebot
-ws://127.0.0.1:1023/instances/<实例ID>/ws/astrbot
+ws://127.0.0.1:11023/instances/<实例ID>/ws/onebot
+ws://127.0.0.1:11023/instances/<实例ID>/ws/astrbot
 ```
 
 - **OneBot v11**：在上游配置反向 WebSocket，填写该实例的地址，按 [OneBot 接入](../adapters/onebot) 检查事件转发和连接状态。

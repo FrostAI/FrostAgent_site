@@ -11,7 +11,7 @@ FrostAgent 的 OneBot 适配器提供 WebSocket 服务端。由上游 OneBot v11
 5. 用私聊和群聊真实 @各验证一次，在日志中确认收发与动作回执。
 
 ```text
-ws://127.0.0.1:1234/instances/<实例ID>/ws/onebot
+ws://127.0.0.1:11023/instances/<实例ID>/ws/onebot
 ```
 
 实例 ID 必须使用真实值。远程或分容器接入时替换主机地址，参见[部署与网络](../guide/deployment)。当前每个实例的 OneBot 和 AstrBot 入口均可用，旧 `ENABLE_ONEBOT_ADAPTER` 和自定义路径配置不用于关闭或改名入口。

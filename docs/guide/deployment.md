@@ -7,7 +7,7 @@
 | 入口                  | 默认值               |
 | --------------------- | -------------------- |
 | HTTP 控制台与管理 API | `127.0.0.1:8080`     |
-| 外部适配器 WebSocket  | `127.0.0.1:1023`     |
+| 外部适配器 WebSocket  | `127.0.0.1:11023`     |
 | 本地 SQLite 数据库    | `data/frostagent.db` |
 
 在「系统设置 → Bot 服务端设置」中修改全局监听地址，改变后要从新地址重新打开页面。
@@ -39,7 +39,7 @@
 普通构建中，若管理监听及安全网络策略允许相应访问，AstrBot 容器可以使用：
 
 ```text
-ws_url: ws://frostagent:1234/instances/<实例ID>/ws/astrbot
+ws_url: ws://frostagent:11023/instances/<实例ID>/ws/astrbot
 http_base_url: http://frostagent:8080
 ```
 
