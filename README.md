@@ -34,9 +34,20 @@ npm run docs:preview
 
 文档预览默认 `http://localhost:4173/docs/`。依赖统一由根目录 `package-lock.json` 锁定，使用 `npm ci` 安装两个站点的依赖；文档的基路径与单独部署方法见 [维护文档站](docs/development/docs.md)。
 
-## Cloudflare Pages 部署
+## Cloudflare 部署
 
 当前仓库已连接 Cloudflare Workers Builds。官网与文档共用 `npm run build`，完整静态输出为 `_site/`；发布状态以 Cloudflare 的构建记录为准。
+
+在 `frostagent-site` Worker 的 **Settings → Build** 中设置：
+
+| 设置 | 值 |
+| --- | --- |
+| 生产分支 | `main` |
+| 根目录 | 留空，使用仓库根目录 |
+| 构建命令 | `npm run build` |
+| 部署命令 | `npx wrangler deploy` |
+
+仓库根目录的 `wrangler.jsonc` 指定上传完整 `_site/`，并处理 `/docs` 到 `/docs/` 的跳转和 HTML 页面路径。保存设置后重新部署最新提交；构建日志中应包含 `vitepress build`。发布后检查 `/docs/` 和 `/docs/guide/quick-start.html`。
 
 若使用 Cloudflare Pages，可按以下方式配置 Git 集成：
 

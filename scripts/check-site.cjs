@@ -35,7 +35,7 @@ const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
 assert.ok(home.includes("docker compose up -d --build"), "Docker instructions must include the default Compose startup command");
 assert.doesNotMatch(home, /caddy|hash-password/i, "Docker instructions must not retain the retired Caddy setup");
 assert.ok(home.includes('id="docker-panel"'), "Docker tab panel is missing");
-assert.ok(home.includes('href="/docs/"'), "Documentation navigation is missing");
+assert.ok(home.includes('href="/docs"'), "Documentation navigation is missing");
 assert.ok(home.includes('href="/docs/guide/installation.html"'), "Source installation guide link is missing");
 assert.ok(home.includes('href="/docs/guide/docker.html"'), "Docker guide link is missing");
 console.log("Static output checks passed.");

@@ -1,0 +1,12 @@
+{
+  "name": "frostagent-site",
+  "compatibility_date": "2026-10-19",
+  "assets": {
+    "directory": "./_site",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

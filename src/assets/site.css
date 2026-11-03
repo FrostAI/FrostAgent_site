@@ -53,7 +53,6 @@ main { padding-top: var(--nav-height); }
 .hero h1 { font-family: Arial, sans-serif; margin-bottom: 1.5625rem; }
 .wordmark { display: block; font-size: clamp(3rem, calc(5.2vw * var(--site-scale)), 4rem); font-weight: 400; line-height: 1.04; letter-spacing: -.055em; }
 .version { display: flex; align-items: center; gap: 1.125rem; margin-top: 0.0625rem; font-size: clamp(3.3125rem, calc(5.7vw * var(--site-scale)), 4.375rem); line-height: 1; font-weight: 750; letter-spacing: -.045em; }
-.preview-label { padding: 0.3125rem 0.4375rem; margin-top: 0.5625rem; border: 0.0625rem solid #ddd; border-radius: 0.1875rem; color: #787878; font-size: 0.5rem; font-weight: 400; letter-spacing: .09em; white-space: nowrap; }
 .hero-summary { margin-bottom: 0.5625rem; font-size: 1.1875rem; font-weight: 600; letter-spacing: -.02em; }
 .hero-description { color: #777; line-height: 1.85; font-size: 0.875rem; }
 .hero-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
@@ -196,7 +195,6 @@ h2 { font-size: clamp(1.6875rem, calc(3vw * var(--site-scale)), 2.125rem); font-
   .hero h1 { margin-bottom: 1.4375rem; }
   .wordmark { font-size: clamp(2rem, calc(6.5vw * var(--site-scale)), 2.875rem); }
   .version { font-size: clamp(2.3125rem, calc(7.5vw * var(--site-scale)), 3.3125rem); margin-top: 0.3125rem; }
-  .preview-label { display: none; }
   .hero-summary { font-size: 1.0625rem; }
   .hero-description { font-size: 0.8125rem; }
   .hero-actions { margin-top: 1.375rem; flex-wrap: wrap; }
