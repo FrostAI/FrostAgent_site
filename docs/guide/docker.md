@@ -18,7 +18,7 @@
 docker compose -f compose.host.yaml up -d --build
 ```
 
-新数据库默认可在 `http://127.0.0.1:8080` 打开控制台；适配器为 `ws://127.0.0.1:1234/instances/<实例ID>/ws/onebot` 或 `/ws/astrbot`。该镜像将管理与适配器默认地址都设为回环；host 模式没有端口映射，隔离来自应用实际监听的 `127.0.0.1`。本地测试无需配置 Tunnel。
+新数据库默认可在 `http://127.0.0.1:8080` 打开控制台；适配器为 `ws://127.0.0.1:11023/instances/<实例ID>/ws/onebot` 或 `/ws/astrbot`。该镜像将管理与适配器默认地址都设为回环；host 模式没有端口映射，隔离来自应用实际监听的 `127.0.0.1`。本地测试无需配置 Tunnel。
 
 若 cloudflared 已运行在同一 Linux 宿主机，它直接回源到 `http://127.0.0.1:8080`。生产路径为：`浏览器 → Cloudflare Access → Tunnel → 宿主机 cloudflared → 回环管理监听`。先通过本地控制台把完整的公开地址（例如 `https://frostagent.example.com`）加入 `HTTP_ALLOWED_ORIGINS`，再启用公网路由。
 
@@ -32,7 +32,7 @@ docker compose -f compose.host.yaml up -d --build
 docker compose up -d --build
 ```
 
-管理只监听**容器内** `127.0.0.1:8080`，不发布管理端口，因此宿主机浏览器不能直接访问。适配器监听容器内 `0.0.0.0:1234`，仅映射到宿主机 `127.0.0.1:1234`；同一 Docker 网络的适配器可用 `ws://frostagent:1234/instances/<实例ID>/ws/onebot` 或 `/ws/astrbot`。1234 只提供适配器 WebSocket，管理页面、API 和 RPC 均不可通过此端口使用。
+管理只监听**容器内** `127.0.0.1:8080`，不发布管理端口，因此宿主机浏览器不能直接访问。适配器监听容器内 `0.0.0.0:11023`，仅映射到宿主机 `127.0.0.1:11023`；同一 Docker 网络的适配器可用 `ws://frostagent:11023/instances/<实例ID>/ws/onebot` 或 `/ws/astrbot`。11023 只提供适配器 WebSocket，管理页面、API 和 RPC 均不可通过此端口使用。
 
 cloudflared 必须与 FrostAgent **共享网络命名空间**，而不只是加入同一桥接网络。若希望由此 Compose 运行已有的 Tunnel connector，将 `docker.env.example` 中的 `TUNNEL_TOKEN` 填入 `.env`，并使用可选文件：
 
@@ -90,7 +90,7 @@ PY
 
 ::: details 已有部署：监听地址、认证和旧版迁移
 
-SQL 设置仍优先；启动、热更新和数据库切换必须保持管理地址为数值回环 IP，且与适配器不同端口。不安全的存量地址拒绝启动，不自动迁移。早期容器部署已保存的 `127.0.0.1:8081` 仍有效，需让 Tunnel 回源到该实际端口；新库默认管理端口改回 8080。host 镜像的回环默认值不会覆盖 SQL 中已保存的 `WS_LISTEN_ADDR=0.0.0.0:1234`；从桥接部署切换到 host 前，须按需要先改为 `127.0.0.1:1234`，避免适配器监听宿主机所有接口。
+SQL 设置仍优先；启动、热更新和数据库切换必须保持管理地址为数值回环 IP，且与适配器不同端口。不安全的存量地址拒绝启动，不自动迁移。早期容器部署已保存的 `127.0.0.1:8081` 仍有效，需让 Tunnel 回源到该实际端口；新库默认管理端口改回 8080。host 镜像的回环默认值不会覆盖 SQL 中已保存的 `WS_LISTEN_ADDR=0.0.0.0:11023`；从桥接部署切换到 host 前，须按需要先改为 `127.0.0.1:11023`，避免适配器监听宿主机所有接口。
 
 容器构建仅信任实际来自回环的 connector 连接，保留公共 Host/Origin 和转发头；这份信任来自网络隔离，不是对 Cloudflare 请求头的认证。通过 Access 的正常请求默认无需另一套本地登录。既有 `MCP_ENFORCE_LOCAL_TOKEN` 仍有效；若用户显式启用了它，前端及一次性管理请求仍需原有 Bearer Token。普通构建的远程控制令牌规则保持不变。
 

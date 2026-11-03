@@ -59,4 +59,4 @@ PostgreSQL 重启后可复用与当前路由、内容和维度兼容的已保存
 
 若向量表缺失，或删除 pgvector 扩展后残留表已失去 `embedding` 列，先由数据库管理员恢复扩展，再重新启用 Embedding。程序会修复派生存储并清除过期的作用域就绪标记，随后重建；原始记忆保留。不要手工伪造就绪状态或删原记忆来处理索引故障。
 
-当前 SQL Schema 为 v14；v12 / v13 维护 Embedding 输入限额及兼容迁移，v14 增加 Skills。升级仍遵守[迁移规则](../development/#sql-schema-migration)。数据库级完整备份与应用导出用途不同，参见[数据库与备份](../operations/storage)。
+当前 SQL Schema 为 v14；v12 / v13 维护 Embedding 输入限额及兼容迁移，v14 增加 Skills。数据库级完整备份与应用导出用途不同，参见[数据库与备份](../operations/storage)。
