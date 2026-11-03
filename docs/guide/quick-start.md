@@ -36,7 +36,7 @@ make build
 ./bin/app
 ```
 
-命令在应用仓库根目录执行。Windows 也可使用无需 Make / Bash 的 [PowerShell 构建步骤](./installation#_2°-windows-powershell-构建)，生成后启动 `.\bin\app.exe`。构建产物和工具说明见[安装与构建](./installation)。
+命令在应用仓库根目录执行。Windows 也可使用无需 Make / Bash 的 [PowerShell 构建步骤](./installation#windows-powershell-构建)，生成后启动 `.\bin\app.exe`。构建产物和工具说明见[安装与构建](./installation)。
 
 
 
