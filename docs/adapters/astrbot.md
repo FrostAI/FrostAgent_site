@@ -12,7 +12,7 @@
 6. 检查插件连接日志，再测试私聊、真实 @机器人和贴图。
 
 ```text
-ws://127.0.0.1:1234/instances/<实例ID>/ws/astrbot
+ws://127.0.0.1:11023/instances/<实例ID>/ws/astrbot
 ```
 
 旧版不带实例 ID 的 `/ws/astrbot` 地址不能用于当前接入。

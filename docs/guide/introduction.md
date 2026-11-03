@@ -1,58 +1,41 @@
 # 项目介绍
 
-FrostAgent 是用 Go 编写的 AI 角色扮演与智能体调度框架。它把模型调用、人格、长期记忆、会话上下文和工具执行组织成一个持续运行的 Bot，并通过适配器连接即时通信平台。
+FrostAgent 是一个用 Golang 编写的 AI 角色扮演与代码协作智能体后端（AI Harness）。它连接模型和聊天平台，让 Bot 按设定的人格聊天、记住信息，并调用工具完成任务。您可以**在 Web 控制台配置，然后接入聊天平台使用。** 一个服务可以运行多个实例，每个实例就是一个独立配置的 Bot。
 
-你可以用它搭建有固定人格的聊天机器人、参与群聊的助手，或能够调用外部工具与自动化任务的智能体。Web 控制台负责配置和排障，聊天平台负责收发消息。
+第一次使用可以从[快速开始](./quick-start)起步，获得直接的体验。
 
-## 主要能力
+## 功能
 
-| 能力     | 可以做什么                                                                            |
-| -------- | ------------------------------------------------------------------------------------- |
-| 多实例   | 在一个服务中运行多个 Bot，分别管理人格、设置、记忆、会话、MCP 与贴图                  |
-| 模型路由 | 为主对话、子 Agent、图片理解、反思、记忆提取、群聊压缩与 Embedding 选择模型，按群覆盖 |
-| 平台适配 | 通过 OneBot v11 反向 WebSocket 接入上游，或使用专用 AstrBot 插件                      |
-| 人格     | 编辑系统提示词，用示例对话引导表达风格                                                |
-| 记忆     | 自动提取和手动维护长期记忆，管理群档案、群摘要与反思归档                              |
-| 群聊     | 使用真实 @、名称或别名唤醒，配置主动回复、引用链与 Bot 连续对话限制                   |
-| 工具     | 导入 Skills 技能包，调用内置与 MCP 业务工具，通过外部隔离沙箱执行命令                 |
-| 运维     | 检查实际 Prompt、会话、日志与安全审计，导出并还原实例存档                             |
-
-## 系统如何协作
-
-```text
-聊天平台 / 上游客户端
-        │ OneBot v11 或 AstrBot WebSocket
-        ▼
-FrostAgent 实例
-  ├─ 消息路由、唤醒与安全入口
-  ├─ 人格、会话、长期记忆与群摘要
-  ├─ 模型路由器 → OpenAI 兼容模型服务
-  └─ 工具循环 → MCP / 隔离沙箱 / ActionsCat
-        │
-        ▼
-适配器发送回复并确认投递
-
-Web 控制台 → 管理实例与全局设置
-SQL 数据库 → 保存配置和持久化业务数据
-```
-
-服务端使用 Go、ConnectRPC 与 Protobuf；控制台使用 Vite、原生 TypeScript 和 Tailwind CSS。控制台静态资源编译后嵌入 Go 程序，部署时无需另外运行前端服务器。本文档站使用 VitePress，单独构建和部署。
-
-## 实例隔离与共享资源
-
-人格、默认路由、群级路由、会话、记忆、贴图和 MCP 配置属于实例。模型供应商、供应商凭据和模型目录由所有实例共享，发布供应商修改会影响使用它的实例。
-
-Skills 同样按实例保存。群档案和群记忆进一步按规范化平台与群 ID 隔离；QQ 的 OneBot 与 AstrBot aiocqhttp 接入共享 `qq` 平台，同号的其他平台群不会共用数据。
-
-监听地址、数据库选择、沙箱接入、安全模式和全局访问锁属于控制面。安全封禁使用规范化的平台与用户身份，因此同一用户的封禁会跨实例生效。
+| 能力 | 用途 | 索引 |
+| --- | --- | --- |
+| 多实例 | 在一个服务里运行多个 Bot，分别管理人格、会话和设置 | [控制台与实例](../usage/dashboard) |
+| 人格 | 使用系统提示词和示例对话引导角色与表达风格 | [人格设定](../usage/persona) |
+| 平台接入 | 通过适配器收发真实聊天消息 | [快速开始](./quick-start) |
+| 群聊 | 配置唤醒、主动回复等 | [群聊策略](../usage/group-chat) |
+| 记忆 | 保存长期信息，维护群记忆 | [记忆管理与机制](../usage/memory) |
+| 模型路由 | 为不同会话/职责分配不同模型 | [模型配置与路由](../usage/model-router) |
+| 工具 | 包括导入 Skills、连接 MCP，通过外部沙箱或 ActionsCat 执行任务 | [Skills](../integrations/skills)、[MCP](../integrations/mcp)、[沙箱](../integrations/sandbox)、[ActionsCat](../integrations/actionscat) |
+| 安全与维护 | 检查日志和请求体，配置安全控制，导出与恢复数据 | [安全控制](../operations/security)、[数据库与备份](../operations/storage)、[故障排查](../operations/troubleshooting) |
 
 ## 使用前准备
 
-- 一个可用的 OpenAI 兼容模型服务；涉及工具调用时，模型需要支持对应能力。
-- 安装源码所需的 Go、Node.js、pnpm、Buf；Make 构建还需要 Bash。
-- 如果要接入真实聊天平台，准备 OneBot v11 上游或 AstrBot。
-- MCP、沙箱、ActionsCat 与 Alcyone 都是按需启用的外部集成。
+一个 OpenAI 兼容模型服务（暂不支持 Anthropic，如有需要套接一层中转），以及运行 FrostAgent 的计算机。涉及工具调用、多模态、Embedding 等能力时，模型也要支持。
 
-先完成[快速开始](./quick-start)，再接入平台。FrostAgent 按 [MPL-2.0](https://github.com/GuaiZai233/FrostAgent/blob/main/LICENSE) 发布。
+真实聊天需要配置消息平台上游。MCP、沙箱和计费服务可选。
 
-已有 Docker 环境可按[容器部署指南](./docker)从源码构建镜像，选择原生 Linux host 方案或共享网络命名空间的 cloudflared 方案。
+## 如何运作
+
+```text
+聊天平台 → 适配器 → FrostAgent 实例
+                        ├─ 人格、会话与记忆
+                        ├─ 模型路由 → 远端端点
+                        └─ 工具调用 → MCP / 沙箱 / ActionsCat
+Web 控制台 → 配置与排障
+SQL 数据库 → 持久化数据
+```
+
+技术栈方面，服务端使用 Go、ConnectRPC 与 Protobuf；控制台使用 Vite、原生 TypeScript 和 Tailwind CSS，构建后嵌入 Go 程序，无需另起前端服务。官网使用 Eleventy，文档站使用 VitePress。
+
+## 开源与社区协作
+
+FrostAgent 在 [MPL-2.0](https://github.com/GuaiZai233/FrostAgent/blob/main/LICENSE) 下开源。欢迎各位 Issue/PR！

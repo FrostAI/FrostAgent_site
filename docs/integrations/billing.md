@@ -1,4 +1,4 @@
-# Alcyone 计费
+# 计费
 
 Alcyone 是可选的外部计费服务。`BILLING_ENABLED` 默认 `false`，未启用时无需配置。它独立于模型供应商自身的 API 账单。
 

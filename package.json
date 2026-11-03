@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npm run docs:build && eleventy --serve --port=4321",
     "build": "eleventy && npm run docs:build",
-    "check": "npm run docs:check && node scripts/check-site.cjs && node scripts/check-docs.cjs",
+    "check": "npm run docs:check && npm run test:docs && node scripts/check-site.cjs && node scripts/check-docs.cjs",
+    "test:docs": "node --test scripts/docs-navigation.test.mjs",
     "test:scroll": "node --test scripts/section-scroll.test.cjs",
     "update:contributors": "node scripts/update-contributors.cjs",
     "docs:dev": "npm run dev --workspace @frostagent/docs",
