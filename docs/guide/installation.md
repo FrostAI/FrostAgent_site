@@ -23,7 +23,7 @@ cd FrostAgent
 
 然后选择下面一种构建方式。Windows 没有 Bash 时，使用 PowerShell 步骤即可。
 
-## 1° Make 构建
+## 1° Make 构建 {#make-构建}
 
 ```bash
 pnpm install --frozen-lockfile
@@ -45,7 +45,7 @@ make build
 
 :::
 
-## 2° Windows PowerShell 构建
+## 2° Windows PowerShell 构建 {#windows-powershell-构建}
 
 也可以在 PowerShell 中直接运行各项工具，无需 Make 或 Bash。以下流程与现有 Windows CI 的构建方式一致，并额外显式生成 TypeScript 协议：
 
