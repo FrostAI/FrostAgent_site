@@ -24,12 +24,12 @@
 | `HTTP_ALLOWED_ORIGINS`      | 管理面允许的跨域完整 Origin 列表                      |
 | `WS_ALLOWED_ORIGINS`        | WebSocket Origin 白名单                               |
 | `SECURITY_CONTROL_MODE`     | `simple`；可选 `off` / `simple` / `aggressive`        |
-| `MCP_CONTROL_TOKEN`         | 统一管理入口控制令牌，普通构建远程 API / RPC 必需     |
+| `MCP_CONTROL_TOKEN`         | 统一管理入口控制令牌，远程 API / RPC 及桥接映射入口必需     |
 | `ADMIN_TOKEN`               | 上述 Token 的兼容来源，也可用于消息接口认证           |
 | `MCP_ENFORCE_LOCAL_TOKEN`   | 默认不强制本机 Token；启用后本机也需认证              |
 | `DEFAULT_DIALOGUE_TEMPLATE` | 新实例示例对话模板；默认 `eval/dialogue/dialogue.yml` |
 
-Docker 镜像管理监听默认仍为 `127.0.0.1:8080`，桥接镜像适配器默认 `0.0.0.0:11023`，host 镜像适配器默认 `127.0.0.1:11023`。SQL 值优先，容器构建强制管理监听使用数值回环 IP 且与适配器不同端口。远程容器管理的 Cloudflare Access 边界见[Docker 部署](../guide/docker)。
+Docker 桥接镜像管理监听默认 `0.0.0.0:8080`、适配器默认 `0.0.0.0:11023`，仅发布宿主机回环端口；host 镜像分别默认 `127.0.0.1:8080` 和 `127.0.0.1:11023`。SQL 值优先，管理与适配器必须使用不同端口，host 镜像还强制管理监听使用数值回环 IP。桥接首次初始化和 Cloudflare Access 边界见[Docker 部署](../guide/docker)。
 
 ## 人格、上下文与工具循环（实例）
 
@@ -152,6 +152,6 @@ Embedding 为可选实例功能，需同时准备模型路由和存储前提。
 - `UPSTREAM_API_KEY`、`CODER_API_KEY`：不能替代模型路由器中的供应商凭据配置。
 - `MAX_CONTEXT_CHARS`：已从常规设置和当前上下文裁剪路径移除。
 - `ALLOW_REMOTE_MCP_MANAGEMENT`：不再作为常规设置提供，不能绕过统一管理鉴权。
-- 根 `.env` 和进程环境变量：不作为当前应用设置来源；SQL 模型供应商也禁止 `env` 凭据来源。
+- 根 `.env` 和进程环境变量：不作为当前应用设置的覆盖来源；Docker 的 `FROSTAGENT_BOOTSTRAP_CONTROL_TOKEN` 仅用于无令牌数据库的首次管理令牌初始化。SQL 模型供应商仍禁止 `env` 凭据来源。
 
 部分旧键仍出现在底层兼容代码或设置注册表中，不代表它们仍控制当前运行路径。
