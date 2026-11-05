@@ -29,4 +29,4 @@
 
 可信回环访问默认免令牌；`MCP_ENFORCE_LOCAL_TOKEN=true` 时本机也要认证。反向代理保留公共 Host 或转发标识；若代理同时改成回环 Host 并清空转发标识，必须强制本机令牌，避免把远程请求误判为本机。
 
-[默认桥接容器](../guide/docker)首次启动前需配置 `FROSTAGENT_BOOTSTRAP_CONTROL_TOKEN`，已有 SQL 管理令牌优先；端口映射及普通网桥来源必须提供管理控制令牌。整个公开域名仍由 Cloudflare Access 保护，Tunnel 能连通不代表 Access 策略已生效。共享网络命名空间的实际回环 connector 连接沿用原信任策略，不是任意请求自报 Cloudflare Header 就能免认证；显式开启的本机强制令牌仍须提供。独立 host 镜像保留数值回环管理监听。
+[容器构建](../guide/docker)默认发布宿主机回环端口，桥接管理访问需控制令牌；公网认证仍由整个公开域名上的 Cloudflare Access 负责。Tunnel 能连通不代表 Access 策略已生效。该构建信任的是实际回环 connector 连接，不是任意请求自报的 Cloudflare Header；显式开启的本机强制令牌仍须提供。

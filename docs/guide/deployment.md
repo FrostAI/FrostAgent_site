@@ -16,9 +16,9 @@
 
 管理页面拥有实例管理、模型凭据、数据库切换等权限。普通构建的远程管理 API / RPC 统一要求有效控制令牌，包括设置、备份、日志、实例操作和数据库切换。先在本机「Bot 服务端设置」配置「管理控制令牌」，再在远程网页「前端设置」填写相同值。`MCP_CONTROL_TOKEN` 优先于兼容的 `ADMIN_TOKEN`；`ALLOW_REMOTE_MCP_MANAGEMENT` 不能绕过统一鉴权。
 
-可信回环连接默认免令牌；开启 `MCP_ENFORCE_LOCAL_TOKEN` 后本机也要认证。反向代理应保留公共 Host 或转发标识；如果代理把 Host 改成本机地址且清除全部转发标识，必须开启本机强制令牌。完整说明见[管理面认证](../operations/security#管理面认证)。
+本机默认免令牌；开启 `MCP_ENFORCE_LOCAL_TOKEN` 后本机也要认证。反向代理应保留公共 Host 或转发标识；如果代理把 Host 改成本机地址且清除全部转发标识，必须开启本机强制令牌。完整说明见[管理面认证](../operations/security#管理面认证)。
 
-默认 Docker 桥接部署仅发布宿主机回环端口，端口映射及普通网桥来源仍要求管理控制令牌；首次启动前需配置初始化输入。公网入口继续使用 Cloudflare Access，真实回环 connector 连接沿用原信任策略，接入方式见[Docker 与 Cloudflare](./docker)。
+仓库默认 Compose 仅发布宿主机回环端口，桥接管理入口需控制令牌，公网访问仍由 Cloudflare Access 保护，见[Docker 与 Cloudflare](./docker)。
 
 反向代理应转发控制台、API 和 WebSocket Upgrade。直接对话使用管理入口同源的 `/instances/<实例ID>/ws/<适配器>?mock=true`，因此管理反向代理也必须支持此 WebSocket 路径。
 
@@ -43,7 +43,7 @@ ws_url: ws://frostagent:11023/instances/<实例ID>/ws/astrbot
 http_base_url: http://frostagent:8080
 ```
 
-`http_base_url` 用于获取贴图，不能用 WebSocket 地址代替。仓库的默认 Compose 将管理和适配器端口发布到宿主机回环；同一 Docker 网络访问管理入口仍须满足控制令牌及 Host/Origin 校验。容器部署需按[Docker 部署指南](./docker)选择网络拓扑，贴图 HTTP 根地址也必须使用插件能访问且满足认证要求的入口。
+`http_base_url` 用于获取贴图，不能用 WebSocket 地址代替。仓库的默认 Compose 将端口发布到宿主机回环，同网桥访问管理入口仍需控制令牌。容器部署需按[Docker 部署指南](./docker)选择网络拓扑，贴图 HTTP 根地址也必须使用插件能访问且满足认证要求的入口。
 
 ## 服务进程与数据
 
