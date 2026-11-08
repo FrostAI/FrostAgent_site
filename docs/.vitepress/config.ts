@@ -74,6 +74,6 @@ export default defineConfig({
       linkLabel: '返回首页',
       linkText: '返回首页',
     },
-    footer: { message: '基于 MPL-2.0 许可证发布', copyright: 'FrostAgent' },
+    footer: { message: '基于 MPL-2.0 许可证发布', copyright: '<a href="https://guaitech.org">©GuaiTech Organization</a>' },
   },
 });
