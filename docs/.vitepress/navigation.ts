@@ -78,8 +78,17 @@ const referenceTopics: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       { text: '开发指南', link: '/development/' },
-      { text: '插件权限模型', link: '/development/plugin-permissions' },
       { text: '维护文档站', link: '/development/docs' },
+    ],
+  },
+];
+
+const pluginTopics: DefaultTheme.SidebarItem[] = [
+  {
+    text: '插件',
+    collapsed: false,
+    items: [
+      { text: '插件权限模型', link: '/plugins/permissions' },
     ],
   },
 ];
@@ -88,7 +97,12 @@ export const nav: DefaultTheme.NavItem[] = [
   {
     text: '使用文档',
     link: '/guide/quick-start',
-    activeMatch: '^/(?!reference/|development/)',
+    activeMatch: '^/(?!reference/|development/|plugins/)',
+  },
+  {
+    text: '插件',
+    link: '/plugins/permissions',
+    activeMatch: '^/plugins/',
   },
   {
     text: '参考与开发',
@@ -101,4 +115,5 @@ export const sidebar: DefaultTheme.SidebarMulti = {
   '/': topics,
   '/reference/': referenceTopics,
   '/development/': referenceTopics,
+  '/plugins/': pluginTopics,
 };

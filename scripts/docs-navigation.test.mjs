@@ -32,8 +32,8 @@ const routes = pagesIn(docs).map((filename) => '/' + path.relative(docs, filenam
   .split(path.sep).join('/').replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, ''));
 
 test('top navigation separates usage documentation from reference and development', () => {
-  assert.deepEqual(nav.map((item) => item.text), ['使用文档', '参考与开发']);
-  assert.deepEqual(nav.map((item) => item.link), ['/guide/quick-start', '/reference/configuration']);
+  assert.deepEqual(nav.map((item) => item.text), ['使用文档', '插件', '参考与开发']);
+  assert.deepEqual(nav.map((item) => item.link), ['/guide/quick-start', '/plugins/permissions', '/reference/configuration']);
 });
 
 test('each article is in its own contextual sidebar exactly once', () => {
@@ -58,7 +58,7 @@ test('every sidebar topic is reachable from the top navigation', () => {
 
 test('sidebars cover every article without duplicate entries', () => {
   const sections = [...new Set(Object.values(sidebar))];
-  assert.equal(sections.length, 2);
+  assert.equal(sections.length, 3);
   const links = sections.flatMap((items) => linksIn(items));
   assert.equal(links.length, new Set(links).size, 'An article appears more than once');
   assert.deepEqual([...links].sort(), routes.filter((route) => route !== '/').sort());
