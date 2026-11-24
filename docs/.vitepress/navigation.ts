@@ -69,6 +69,7 @@ const topics: DefaultTheme.SidebarItem[] = [
       { text: '配置参考', link: '/reference/configuration' },
       { text: 'API 入口', link: '/reference/api' },
       { text: '开发指南', link: '/development/' },
+      { text: '插件权限模型', link: '/development/plugin-permissions' },
       { text: '维护文档站', link: '/development/docs' },
     ],
   },
