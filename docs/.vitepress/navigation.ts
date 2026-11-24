@@ -62,14 +62,33 @@ const topics: DefaultTheme.SidebarItem[] = [
       { text: '日志与故障排查', link: '/operations/troubleshooting' },
     ],
   },
+];
+
+const referenceTopics: DefaultTheme.SidebarItem[] = [
   {
-    text: '参考与开发',
+    text: '参考',
     collapsed: false,
     items: [
       { text: '配置参考', link: '/reference/configuration' },
       { text: 'API 入口', link: '/reference/api' },
+    ],
+  },
+  {
+    text: '开发',
+    collapsed: false,
+    items: [
       { text: '开发指南', link: '/development/' },
       { text: '维护文档站', link: '/development/docs' },
+    ],
+  },
+];
+
+const pluginTopics: DefaultTheme.SidebarItem[] = [
+  {
+    text: '插件',
+    collapsed: false,
+    items: [
+      { text: '插件权限模型', link: '/plugins/permissions' },
     ],
   },
 ];
@@ -78,10 +97,23 @@ export const nav: DefaultTheme.NavItem[] = [
   {
     text: '使用文档',
     link: '/guide/quick-start',
-    activeMatch: '^/',
+    activeMatch: '^/(?!reference/|development/|plugins/)',
+  },
+  {
+    text: '插件',
+    link: '/plugins/permissions',
+    activeMatch: '^/plugins/',
+  },
+  {
+    text: '参考与开发',
+    link: '/reference/configuration',
+    activeMatch: '^/(reference|development)/',
   },
 ];
 
 export const sidebar: DefaultTheme.SidebarMulti = {
   '/': topics,
+  '/reference/': referenceTopics,
+  '/development/': referenceTopics,
+  '/plugins/': pluginTopics,
 };

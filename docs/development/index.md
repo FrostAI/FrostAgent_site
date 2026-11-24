@@ -76,3 +76,7 @@ make dev
 使用独立分支处理任务，保留无关本地改动，按 `AGENTS.md` 做 Implementation Assessment、验证和独立 Review。测试数据使用合成身份，不硬编码真实 QQ、邮箱或用户 ID。
 
 更新用户可见行为时同步使用文档，文档维护方法见[维护文档站](./docs)。
+
+## 设计草案
+
+[插件权限模型](../plugins/permissions)描述插件系统的权限端点与授权规则，目前为未实现的设计草案。
